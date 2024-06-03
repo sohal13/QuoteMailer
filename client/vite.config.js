@@ -6,10 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server:{
     proxy:{
-      '/api':{
-        target:'http://localhost:4000',
-        secure:false,
-      }
+      '/api':'https://quotemailer.onrender.com',
     }
   }
 

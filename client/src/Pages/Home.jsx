@@ -6,7 +6,6 @@ import { useAuth } from '../context/AuthContext';
 const Home = () => {
 
   const {authUser } = useAuth();
-  console.log(authUser);
   const [quote, setQuote] = useState([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [formData, setFormData] = useState({})
@@ -19,7 +18,7 @@ const Home = () => {
       }
       setQuote(data)
     } catch (error) {
-      console.log(error);
+      console.log("getQuote",error);
     }
   }
 
@@ -42,7 +41,7 @@ const Home = () => {
       ...formData,[e.target.id]:e.target.value
     })
   }
-console.log(formData);
+  console.log(formData);
   const handelInpuSubmit = async(e) => {
     e.preventDefault();
     try {
