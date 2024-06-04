@@ -15,12 +15,12 @@ app.use(cors({
     origin: ["https://quotemailer.onrender.com", "*"]
 }));
 
-app.use('/api/user',UserRout)
+app.use('/api/user', UserRout)
 
-app.use(express.static(path.join(__dirname,"/client/dist")))
+app.use(express.static(path.join(__dirname, "/client/dist")))
 
-app.get("*",(req,res)=>{
-    res.sendFile(path.join(__dirname,"client","dist","index.html"))
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "dist", "index.html"))
 })
 
 
@@ -28,6 +28,9 @@ app.get("*",(req,res)=>{
 app.listen(process.env.PORT || 4000, () => {
     DBConnected().then(() => {
         console.log(`QuoteMailer Server Is Ruuning On ${process.env.PORT}!!`);
+        const time = new Date().toISOString();
+        const utcDate = new Date(time);
+        console.log(utcDate.toLocaleString());
     }).catch((error) => {
         console.log("Server ", error);
     })
