@@ -3,7 +3,6 @@ import { getQuote, getUserData, postQuote } from "../RouteControler/RoutControle
 
 const route = express.Router();
 
-
 route.post(`/subscribe`,getUserData)
 
 route.post('/post-quote',postQuote)

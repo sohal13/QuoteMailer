@@ -1,23 +1,22 @@
-import { text } from "express";
 import Quote from "../Schema/QuoteSchema.js";
 import User from "../Schema/UserSchema.js";
 import cron from 'node-cron'
 import nodeMailer from 'nodemailer'
 
 
-export const getUserData = async (req, res) => {
 
+export const getUserData = async (req, res) => {
+    
     const transPorter = nodeMailer.createTransport({
         service: 'gmail',
         auth: {
             user:process.env.EMAIL_USER,
             pass:process.env.EMAIL_PASS
         },
-        authMethod: 'PLAIN' //
     });
     
-
     const sendMail = (email, quote) => {
+        console.log("In sending Email");
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
@@ -37,9 +36,9 @@ export const getUserData = async (req, res) => {
             }
         })
     }
-
+    
     const getRandomQuote = async (user) => {
-
+        console.log("In Getting RandomQuote");
         const unsendquote = await Quote.find({ _id: { $nin: user.sendedQuotes } });
         if (unsendquote.length === 0) {
             return null;
@@ -48,10 +47,9 @@ export const getUserData = async (req, res) => {
         return unsendquote[randomIndex];
     }
     
-
     const scheduleEmail = async (user) => {
-
         try {
+            console.log("In Scheduling Email");
             const [hour, minute] = user.timeing.split(':');
             cron.schedule(`${minute} ${hour} * * *`, async () => {
                 const quote = await getRandomQuote(user)
@@ -67,9 +65,9 @@ export const getUserData = async (req, res) => {
             console.log(error);
         }
     }
-
-    const { email, timeing } = req.body;
+    
     try {
+        const { email, timeing } = req.body;
         const newUser = new User({ email, timeing, sendedQuotes: [] })
         if (newUser) {
             await newUser.save();

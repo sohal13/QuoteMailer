@@ -12,7 +12,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: ["https://quotemailer.onrender.com", "http://localhost:5173/"]
+    origin: ["https://quotemailer.onrender.com", "*"]
 }));
 
 app.use('/api/user',UserRout)

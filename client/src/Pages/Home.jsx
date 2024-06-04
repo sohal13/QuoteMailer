@@ -3,12 +3,19 @@ import axios from "axios"
 import { data } from 'autoprefixer';
 import { toast } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
+import { IoMdAdd } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
+
 const Home = () => {
 
   const {authUser } = useAuth();
+
+  const navigate = useNavigate();
+
   const [quote, setQuote] = useState([]);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [formData, setFormData] = useState({})
+  const [showMore , setShowMore] = useState(false)
 
   const getRandomQuote = async () => {
     try {
@@ -50,14 +57,21 @@ const Home = () => {
         console.log(data.message);
       }
       localStorage.setItem("QuoteMailer",JSON.stringify(data.newUser))
-      toast.success("Success! Your quote has been scheduled for delivery.",{autoClose:1000 , theme:"dark"})
+      window.location.reload();
+      toast.success(data.message,{autoClose:1000 , theme:"dark"})
     } catch (error) {
       console.log(error);
     }
   }
+  console.log(showMore);
+
+  const handelDelete=()=>{
+
+  }
+
   return (
     <div className='w-full flex flex-col justify-center items-center'>
-      <div className='md:flex justify-between'>
+      <div className='flex justify-between'>
         <div className='font-bold p-2 text-3xl text-white font-serif text-center'>
           QuoteMailer
         </div>
@@ -95,8 +109,18 @@ const Home = () => {
           <p className='font-extrabold'>- {quote[currentQuoteIndex]?.author || 'Unknown'}</p>
         </div>
       </div>
+      <div className='absolute bottom-0 right-0 p-4 z-20 '>
+        <div onClick={(e)=>setShowMore(!showMore)} className={`p-1 bg-white rounded-full border border-black hover:scale-105 cursor-pointer ${showMore === true ? ("bg-green-500"):""}`}>
+        <IoMdAdd size={30}/>
+        </div>
+      </div>
+      {
+        showMore ? (<div className='bg-gray-200 absolute bottom-11 right-5 p-1 rounded flex flex-col gap-2 z-10 border border-black'>
+      <button onClick={()=>navigate('/post-quote')} className='hover:bg-green-500 p-1 rounded'>Create Quote</button>
+      </div>) : ("")
+      }
     </div>
   )
+  
 }
-
 export default Home
