@@ -6,7 +6,6 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 
-console.log(process.env.EMAIL_PASS);
 const transPorter = nodeMailer.createTransport({
     service: 'gmail',
     auth: {
@@ -30,7 +29,7 @@ const sendMail = (email, quote) => {
     }
     transPorter.sendMail(mailOptions, (err, info) => {
         if (err) {
-            console.log(err);
+            console.log('Error sending email:', err);
         } else {
             console.log('Email sent: ' + info.response);
         }
@@ -51,7 +50,9 @@ const scheduleEmail = async (user) => {
     try {
         console.log("In Scheduling Email");
         const [hour, minute] = user.timeing.split(':');
+        console.log(`Scheduling email for ${hour}:${minute} daily`);
         cron.schedule(`${minute} ${hour} * * *`, async () => {
+            console.log('Running scheduled task');
             const quote = await getRandomQuote(user)
             if (quote) {
                 sendMail(user.email, quote);
@@ -61,7 +62,9 @@ const scheduleEmail = async (user) => {
                 console.log('No more new quotes to send to user:', user.email);
             }
         })
+        console.log('Email scheduled successfully');
     } catch (error) {
+        console.error('Error in scheduling email:', error);
         console.log(error);
     }
 }
