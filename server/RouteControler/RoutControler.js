@@ -56,7 +56,22 @@ const scheduleEmail = async (user) => {
         console.log("In Scheduling Email");
         const [hour, minute] = user.timeing.split(':');
         console.log(`Scheduling email for ${hour}:${minute} daily`);
-        cron.schedule(`${minute} ${hour} * * *`, async () => {
+        // Log current server time and timezone
+        console.log('Current server time:', new Date().toLocaleString());
+        console.log('Current server timezone offset:', new Date().getTimezoneOffset());
+
+        // Adjust time to server's timezone if needed
+        const serverTime = moment.tz(`${hour}:${minute}`, "HH:mm", 'Your/Timezone');
+        const serverHour = serverTime.hour();
+        const serverMinute = serverTime.minute();
+
+        console.log(`Adjusted server time for cron: ${serverHour}:${serverMinute}`);
+        
+          // Test with a cron job that triggers every minute
+          cron.schedule(`* * * * *`, async () => {
+            console.log('Running test scheduled task');
+        });
+        cron.schedule(`${serverMinute} ${serverHour} * * *`, async () => {
             console.log('Running scheduled task');
             const quote = await getRandomQuote(user)
             if (quote) {
