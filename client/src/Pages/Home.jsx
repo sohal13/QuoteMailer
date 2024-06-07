@@ -82,22 +82,23 @@ console.log(updatedFormData);
 };
 
   return (
-    <div className='w-full flex flex-col justify-center items-center'>
-      <div className='flex justify-between'>
+    <div className='w-full p-3'>
+      <div className='md:flex md:justify-between px-20'>
         <div className='font-bold p-2 text-3xl text-white font-serif text-center'>
           QuoteMailer
         </div>
         <div className='md:flex p-3 font-bold text-white gap-6 hidden'>
-          <p>LINKED IN</p>
-          <p>Git HUB</p>
-          <p>Instagram</p>
-          <p>YouTube</p>
+          <a href='https://www.linkedin.com/in/sohal-rahaman-540941245/'>Linked IN</a>
+          <a href='https://github.com/sohal13'>Git Hub</a>
+          <a href='https://www.instagram.com/sohal_rahaman_/'>InsTagram</a>
+          <a href='https://www.youtube.com/channel/UC-J5OVodo9RMoFsup0iBS3w'>YouTube</a>
         </div>
       </div>
       <p className='text-xl text-center mt-10 font-semibold text-white p-4 font-sans'>
         "Transform your day with daily doses of inspiration!
         Enter your Email and choose your daily moment of motivation with <span className=' text-green-600'>QuoteMailer</span>🔔."
       </p>
+    <div className='w-full flex flex-col items-center'>
       {authUser ? (<div className='p-10 mt-10 text-xl font-bold text-yellow-200 text-center'>
         <h1 className=''>Hii {authUser?.email}</h1>
         <h1 className='text-sm'>Every Day You Will Get a Mail At {authUser?.timeing}</h1>
@@ -114,6 +115,7 @@ console.log(updatedFormData);
           Let's GO
         </button>
       </form>)}
+      </div>
       <div className='mt-10 flex flex-col justify-center items-center p-2 '>
         <p className='text-white font-bold text-xl'>Some OF The Quotes</p>
         <div className='bg-white font-mono  text-center rounded p-1'>
@@ -121,6 +123,13 @@ console.log(updatedFormData);
           <p className='font-extrabold'>- {quote[currentQuoteIndex]?.author || 'Unknown'}</p>
         </div>
       </div>
+      <div className='md:hidden'>
+        <h1 className='text-xl font-bold text-green-500 px-8'>My Socials</h1>
+        <div className='flex flex-wrap justify-center p-3 font-bold text-white gap-6 md:hidden'>
+          <a href='https://www.linkedin.com/in/sohal-rahaman-540941245/'>Linked In</a>
+          <a href='https://github.com/sohal13'>Git Hub</a>
+        </div>
+        </div>
       <div className='absolute bottom-0 right-0 p-4 z-20 '>
         <div onClick={(e)=>setShowMore(!showMore)} className={`p-1 bg-white rounded-full border border-black hover:scale-105 cursor-pointer ${showMore === true ? ("bg-green-500"):""}`}>
         <IoMdAdd size={30}/>
