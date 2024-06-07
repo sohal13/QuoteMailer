@@ -71,9 +71,15 @@ console.log(updatedFormData);
   }
   console.log(showMore);
 
-  const handelDelete=()=>{
-
-  }
+  const handleLogout = () => {
+    const confirmLogout = window.confirm("Are you sure you want to logout?");
+    if (confirmLogout) {
+      localStorage.removeItem("QuoteMailer");
+      window.location.reload(); 
+      toast.success("Loged out",{autoClose:1000 , theme:"dark"})// Clear local storage
+        // Optionally, perform other logout actions like redirecting to a login page
+    }
+};
 
   return (
     <div className='w-full flex flex-col justify-center items-center'>
@@ -122,6 +128,7 @@ console.log(updatedFormData);
       </div>
       {
         showMore ? (<div className='bg-gray-200 absolute bottom-11 right-5 p-1 rounded flex flex-col gap-2 z-10 border border-black'>
+       <button onClick={handleLogout} className='hover:bg-red-500 p-1 rounded'>LogOut</button>
       <button onClick={()=>navigate('/post-quote')} className='hover:bg-green-500 p-1 rounded'>Create Quote</button>
       </div>) : ("")
       }
