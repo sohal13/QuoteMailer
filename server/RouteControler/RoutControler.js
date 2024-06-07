@@ -3,6 +3,7 @@ import User from "../Schema/UserSchema.js";
 import cron from 'node-cron'
 import nodeMailer from 'nodemailer'
 import dotenv from 'dotenv'
+import moment from 'moment-timezone';
 
 dotenv.config();
 
@@ -66,7 +67,7 @@ const scheduleEmail = async (user) => {
         const serverMinute = serverTime.minute();
 
         console.log(`Adjusted server time for cron: ${serverHour}:${serverMinute}`);
-        
+
           // Test with a cron job that triggers every minute
           cron.schedule(`* * * * *`, async () => {
             console.log('Running test scheduled task');
