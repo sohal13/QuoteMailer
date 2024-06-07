@@ -10,6 +10,10 @@ const UserSchema = new mongoose.Schema({
         type:String, 
         required:true,
     },
+    timezone: {
+        type: String, // Store timezone as a string
+        required: true
+    },
     sendedQuotes:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Quote'

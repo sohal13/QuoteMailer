@@ -51,8 +51,14 @@ const Home = () => {
   console.log(formData);
   const handelInpuSubmit = async(e) => {
     e.preventDefault();
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const updatedFormData = {
+      ...formData,
+      timezone: userTimezone
+  };
+console.log(updatedFormData);
     try {
-      const {data} = await axios.post(`/api/user/subscribe`,{...formData});
+      const {data} = await axios.post(`/api/user/subscribe`,{...updatedFormData});
       if(data.success === false){
         console.log(data.message);
       }

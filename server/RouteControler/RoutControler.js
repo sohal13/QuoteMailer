@@ -61,17 +61,21 @@ const scheduleEmail = async (user) => {
         console.log('Current server time:', new Date().toLocaleString());
         console.log('Current server timezone offset:', new Date().getTimezoneOffset());
 
+        const userTimezone = user.timezone; // Assuming timezone is provided
+
+        if (!userTimezone) {
+            throw new Error('User timezone is not defined');
+        }
+
         // Adjust time to server's timezone if needed
-        const serverTime = moment.tz(`${hour}:${minute}`, "HH:mm", 'Your/Timezone');
+        const userTime = moment.tz(`${hour}:${minute}`, "HH:mm", userTimezone);
+        const serverTime = userTime.clone().tz(moment.tz.guess());
         const serverHour = serverTime.hour();
         const serverMinute = serverTime.minute();
-
+ 
         console.log(`Adjusted server time for cron: ${serverHour}:${serverMinute}`);
 
-          // Test with a cron job that triggers every minute
-          cron.schedule(`* * * * *`, async () => {
-            console.log('Running test scheduled task');
-        });
+          // Original cron job setup with adjusted time
         cron.schedule(`${serverMinute} ${serverHour} * * *`, async () => {
             console.log('Running scheduled task');
             const quote = await getRandomQuote(user)
@@ -94,8 +98,9 @@ const scheduleEmail = async (user) => {
 export const getUserData = async (req, res) => {
     
     try {
-        const { email, timeing } = req.body;
-        const newUser = new User({ email, timeing, sendedQuotes: [] })
+        console.log(req.body);
+        const { email, timeing , timezone} = req.body;
+        const newUser = new User({ email, timeing, timezone, sendedQuotes: [] })
         if (newUser) {
             await newUser.save();
         }
@@ -105,7 +110,8 @@ export const getUserData = async (req, res) => {
     } catch (error) {
         res.status(400).send({
             success: false,
-            message: 'Error subscribing user'
+            message: 'Error subscribing user',
+            error
         });
     }
 }
