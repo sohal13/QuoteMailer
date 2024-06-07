@@ -13,8 +13,7 @@ const transPorter = nodeMailer.createTransport({
         user:process.env.EMAIL_USER,
         pass:process.env.EMAIL_PASS
     },
-    debug: true, // Enable debug output
-    logger: true // Log information
+
 });
 
 const sendMail = (email, quote) => {
@@ -43,12 +42,10 @@ const sendMail = (email, quote) => {
 const getRandomQuote = async (user) => {
     console.log("In Getting RandomQuote");
     const unsendquote = await Quote.find({ _id: { $nin: user.sendedQuotes } });
-    console.log(unsendquote);
     if (unsendquote.length === 0) {
         return null;
     }
     const randomIndex = Math.floor(Math.random() * unsendquote.length)
-    console.log("returning ", randomIndex);
     return unsendquote[randomIndex];
 }
 
