@@ -15,6 +15,9 @@ app.use(cors({
     origin: ["https://quotemailer.onrender.com", "*"]
 }));
 
+app.get('/api/health', (req, res) => {
+    res.status(200).send({message:"Welcome to The QuoteMailer"});
+});
 app.use('/api/user', UserRout)
 
 app.use(express.static(path.join(__dirname, "/client/dist")))
