@@ -67,9 +67,8 @@ const scheduleEmail = async (user) => {
             throw new Error('User timezone is not defined');
         }
 
-        // Adjust time to server's timezone if needed
-        const userTime = moment.tz(`${hour}:${minute}`, "HH:mm", userTimezone);
-        const serverTime = userTime.clone().tz(moment.tz.guess());
+                // Convert user's time to server time and adjust for server timezone
+        const serverTime = moment.tz(`${hour}:${minute}`, "HH:mm", userTimezone).tz(moment.tz.guess());
         const serverHour = serverTime.hour();
         const serverMinute = serverTime.minute();
  
