@@ -29,6 +29,7 @@ const sendMail = (email, quote) => {
         </div>
         `
     }
+    console.log("redy to TransPorte");
     transPorter.sendMail(mailOptions, (err, info) => {
         if (err) {
             console.log('Error sending email:', err);
@@ -41,10 +42,12 @@ const sendMail = (email, quote) => {
 const getRandomQuote = async (user) => {
     console.log("In Getting RandomQuote");
     const unsendquote = await Quote.find({ _id: { $nin: user.sendedQuotes } });
+    console.log(unsendquote);
     if (unsendquote.length === 0) {
         return null;
     }
     const randomIndex = Math.floor(Math.random() * unsendquote.length)
+    console.log("returning ", randomIndex);
     return unsendquote[randomIndex];
 }
 
@@ -57,8 +60,9 @@ const scheduleEmail = async (user) => {
             console.log('Running scheduled task');
             const quote = await getRandomQuote(user)
             if (quote) {
+                console.log("Redy to send Mail");
                 sendMail(user.email, quote);
-                user.sendedQuotes.push(quote._id);
+                await user.sendedQuotes.push(quote._id);
                 await user.save();
             } else {
                 console.log('No more new quotes to send to user:', user.email);

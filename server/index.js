@@ -28,11 +28,7 @@ app.get("*", (req, res) => {
 app.listen(process.env.PORT || 4000, () => {
     DBConnected().then(() => {
         console.log(`QuoteMailer Server Is Ruuning On ${process.env.PORT}!!`);
-        const time = new Date().toISOString();
-        const utcDate = new Date(time);
-        console.log(utcDate.toLocaleString());
     }).catch((error) => {
         console.log("Server ", error);
     })
-
 })
